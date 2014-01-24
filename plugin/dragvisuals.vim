@@ -137,7 +137,6 @@ function! s:Drag_Lines (dir)
         " Are all lines indented at least one space???
         let lines        = getline(line_left, line_right)
         let all_indented = match(lines, '^[^ ]') == -1
-        nohlsearch
 
         " If can't trim one space from start of each line, be a no-op...
         if !all_indented
@@ -146,7 +145,7 @@ function! s:Drag_Lines (dir)
         " Otherwise drag left by removing one space from start of each line...
         else
             return    s:NO_REPORT
-                  \ . "gv:s/^ //\<CR>"
+                  \ . "gv:s/^ //\<CR>:nohlsearch\<CR>"
                   \ . s:PREV_REPORT
                   \ . "gv"
         endif
@@ -277,7 +276,7 @@ function! s:Drag_Block (dir)
                  \ . s:NO_REPORT
                  \ . "gvlolo"
                  \ . ":s/\\s*$//\<CR>gv\<ESC>"
-                 \ . ':set virtualedit=' . prev_ve . "\<CR>"
+                 \ . ":nohlsearch\<CR>:set virtualedit=" . prev_ve . "\<CR>"
                  \ . s:PREV_REPORT
                  \ . (dollar_block ? 'gv$' : 'gv')
         else
